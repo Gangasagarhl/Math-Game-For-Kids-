@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Game</title>
+</head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script type="text/javascript">
+
+/*****Thses are some of the variables,which are essential to make the program successfull **********/
+answer=0,num1=0,num2=0,incorrect=0,completed=0;
+   
+
+/********************************************************************************************************************************This takes the input from the user,if it is not a integer,then page gets reloaded once again**********************/
+loop=parseInt(prompt("Enter the number of play's you want")); 
+if(!(Number.isInteger(loop))){
+    alert("Entered number is not Integer");
+    window.location.reload();
+}
+
+
+/*Assaigning to total ,to just have a count*/
+Total=loop
+
+/*********This function is used to append the content to the ans region of the display***********/ 
+function append(n)
+{
+    var x=document.getElementById("ans").innerHTML;
+    document.getElementById("ans").innerHTML +=n;
+
+}
+
+
+
+/********Slicing function:Used to slice the data enterd in the ans region********/
+function s()
+{
+    x=document.getElementById("ans").innerHTML;
+    document.getElementById("ans").innerHTML=x.slice(0,-1);
+
+}
+
+/************Function used to reload the contets,used when replay button is pressed**********/
+function reload(){
+    window.location.reload();
+}
+//place the content into the specified areas
+function place_the_content()
+{   document.getElementById("comp").innerHTML=completed;
+
+    document.getElementById("ov").innerHTML=Total;
+    num1= Math.floor((Math.random() * 10)+1 );
+    num2= Math.floor((Math.random() * 10) +1);
+    temp=-1
+
+    //Main aim is to make the num1 as the largest number always
+    if(num2>num1){
+        temp=num1;
+        num1=num2;
+        num2=temp;
+    }
+    document.getElementById("num1").innerHTML=num1;
+    document.getElementById("num2").innerHTML=num2;
+    switch(Math.floor((Math.random() * 4) ))
+    {
+           //Addition
+            case 0:
+
+              document.getElementById("sym").innerHTML="+";
+              answer=num1+num2
+              break;
+   
+           //Substraction
+            case 1:
+
+              document.getElementById("sym").innerHTML="-";
+              answer=num1-num2
+              break;
+   
+            //Multiplication
+            case 2:
+
+              document.getElementById("sym").innerHTML="*";
+              answer=num1*num2
+              break;
+      
+           //Devision 
+            case 3:
+
+              document.getElementById("sym").innerHTML="/";
+              answer=parseInt(num1/num2);
+              break;
+   
+          //Remainder
+            case 4:
+
+              document.getElementById("sym").innerHTML="%";
+              answer=num1%num2
+              break;
+
+
+ }
+
+}
+
+//for evaluating this is used
+function e(){
+
+/*Function :If the loop value is reached,then this is executed;
+1.Checks the loop shold stop or not,(yes):
+  a.Playing content will be demolished.
+  b.Result sheet turns on.
+  c.Calculations for accuracy,correctness,incorrects are evaluated here.
+  d.Placing the contents to their respective positons.
+
+ */ 
+if(loop<=0){
+document.getElementById("play").style.display="none";
+document.getElementById("res").style.display="block";
+correct=Total-incorrect;
+accuracy=(correct/Total)*100;
+document.getElementById("to").innerHTML=Total;
+document.getElementById("ac").innerHTML=accuracy;
+document.getElementById("in").innerHTML=incorrect;
+document.getElementById("co").innerHTML=correct;
+//Accuracy is more than 85,then green color as background to result sheet
+if(accuracy>85)
+{
+    document.getElementById("resp1").style.background="green"
+}
+//Accuracy is more than 50 and less than 85,then yellow color as background to result sheet
+else if(accuracy>50 && accuracy<85){
+    document.getElementById("resp1").style.background="yellow";
+}
+//Accuracy is less than 50 percent,Red color is displayed as background.
+else
+{
+    document.getElementById("resp1").style.background="red";
+}
+
+}
+
+
+/*/If the given answer in the answer column is correct,
+   a.Correct is displayed on to the comment place in green color. 
+   b.answer column is made null.
+   c.loop's content is decremented.
+*/
+if(document.getElementById("ans").innerHTML==answer)
+{
+    
+    document.getElementById("cmnt").innerHTML="Correct";
+    document.getElementById("cmnt").style.color="green";
+    document.getElementById("ans").innerHTML="";
+    place_the_content();
+    loop--;
+    completed++;
+
+
+}
+/* If the answer is wrong ,then wrong is displayed in red on comment place.
+   Incorrect variable is incremented.
+*/
+else
+{   document.getElementById("ans").innerHTML="";
+    document.getElementById("cmnt").innerHTML="Wrong";
+    document.getElementById("cmnt").style.color="red";
+    incorrect++;
+}
+
+
+}
+
+
+//ending script,now.
+ </script>
+
+<body onload="place_the_content()" style="border: 1px solid black;background:rgba(0,0,0,0.5);" >
+
+
+<div id="play" style="padding-left:10% ">
+<table>
+    <tr  style="border: 1px solid black;background:rgba(0,0,0,0.5);" > 
+             <th><span id="comp" ></span><span>/</span><span id='ov' ></span></th>
+    </tr>
+    <tr>
+        <th colspan="4" style="border: 1px solid black;background:rgba(0,0,0,0.5);" >
+         <strong id="cmnt" style="text-align: left"></strong>
+     </th>
+    </tr>
+    <tr style="border: 1px solid black;background:rgba(0,0,0,0.5);" >
+       
+        <th colspan="4">
+           
+           
+            <span id="num1"></span>
+            <span id="sym"></span>
+            <span id="num2"></span>
+            <span >=</span>
+            <span id="ans"></span>
+        </th>
+    </tr>
+ <tr>
+     <br>
+     <br>
+     <br>
+ </tr>
+
+
+<tr>
+ <th><button onclick="append(1)">1</button></th>
+ <th><button onclick="append(2)">2</button></th>
+ <th><button onclick="append(3)">3</button></th>
+ <th onclick="e()"><button >=</button></th>
+
+
+<tr>
+<th><button onclick="append(4)">4</button></th>        
+<th><button onclick="append(5)">5</button></th>
+<th><button onclick="append(6)">6</button></th>
+<th><button onclick="s()">&lt</button></th>      
+</tr>
+</tr>
+
+<tr>
+ <th><button onclick="append(7)">7</button></th>
+ <th><button onclick="append(8)">8</button></th>
+ <th><button onclick="append(9)">9</button></th>       
+ <th><button onclick="append(0)">0</button></th> 
+</tr>
+
+</table>
+
+</div>
+
+
+
+<div id="res" style="display: None;padding: 5%;">
+<div>
+
+<div id="resp1" style="width: 70%,padding-left:10%;padding-right: 10%;"> 
+   <span style="color:White;font-size:20px">Total:</span>&nbsp<span id="to" style="font-size: 15px"></span><br><br><br>
+   <span style="color:White;font-size:20px">Incorrect:</span>&nbsp<span id="in" style="font-size: 15px"></span><br><br><br>
+   <span style="color:White;font-size:20px">Correct(atmpt1):</span>&nbsp<span id="co" style="font-size: 15px"></span><br><br><br>
+   <span style="color:White;font-size:20px">Accuracy:</span>&nbsp<span id="ac" style="font-size: 15px"></span><br><br><br>
+</div>
+   <br><br>
+   <button onclick="reload()" style="width: 60%;padding-left: 25%;font-size: 25px;
+   text-align: left;background-color:'blue'">
+   Replay</button>
+</div>
+</div>
+
+
+</body>
+</html>
+<script>
+
+
+    </script>
+
+
+<style type="text/css">
+    
+table{
+        width: 80%;
+        height: 500px;
+        
+        background: rgba(0, 0, 0, 0.5) ;
+    }
+    button{
+        width: 100%;
+        height: 100%;
+        border: 0;
+        border-radius: 10%;
+        text-align: center;
+    }
+    input{
+        width: 100%;
+        height: 100%;
+    }
+
+    
+    body{
+text-align: center;
+width:100%;
+height: 100%;
+    }
+
+    span
+    {
+      font-size: 18px;
+      color:White;
+    }
+
+</style>
